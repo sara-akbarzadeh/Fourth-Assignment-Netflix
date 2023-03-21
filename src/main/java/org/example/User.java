@@ -1,36 +1,81 @@
 package org.example;
-
 import java.util.ArrayList;
+import java.util.List;
 
 class User {
-    /*
-    * The user should contain username password.
-    * The user should contain an ArrayList of favorite shows and watch history.
-    * FUNCTION: the user should have a function to watch a show and add it to watch history.
-    *  *** NOTE: All search functions in user are for searching in favorite shows ***
-    */
+    private String username;
+    private String password;
+    private List<TVShow> favoriteTVShows;
+    private List<TVShow> watchedTVShows;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.favoriteTVShows = new ArrayList<>();
+        this.watchedTVShows = new ArrayList<>();
+    }
 
-    public ArrayList<TVShow> searchByTitle(String title) {
-        // Implement search by title in favorite shows  logic here
-        return null;
+    public String getUsername() {
+        return username;
     }
-    public ArrayList<TVShow> searchByGenre(String genre) {
-        // Implement search by genre in favorite shows  logic here
-        return null;
+
+    public String getPassword() {
+        return password;
     }
-    public ArrayList<TVShow> searchByReleaseYear(int year) {
-        // Implement search by release year in favorite shows logic here
-        return null;
+
+    public void watchTVShow(TVShow tvShow) {
+        watchedTVShows.add(tvShow);
+        System.out.println(username + " is watching " + tvShow.getTitle());
     }
-    public void addToFavorites(TVShow show) {
-        // Implement add to favorites logic here
+
+    public void addToFavorites(TVShow tvShow) {
+        favoriteTVShows.add(tvShow);
+        System.out.println(tvShow.getTitle() + " added to favorites for " + username);
     }
+
     public void viewFavorites() {
-        // Implement view favorites logic here
+        System.out.println(username + "'s favorite TV shows:");
+        for (TVShow tvShow : favoriteTVShows) {
+            System.out.println(tvShow.getTitle());
+        }
     }
-    public ArrayList<TVShow> getRecommendations() {
-        // Implement get recommendations logic here
-        return null;
+
+    public List<TVShow> getRecommendations() {
+        List<TVShow> recommendations = new ArrayList<>();
+        for (TVShow tvShow : favoriteTVShows) {
+            recommendations.addAll(tvShow.getSimilarTVShows());
+        }
+        return recommendations;
+    }
+
+    public List<TVShow> searchByTitle(String query) {
+        List<TVShow> searchResults = new ArrayList<>();
+        for (TVShow tvShow : favoriteTVShows) {
+            if (tvShow.getTitle().contains(query)) {
+                searchResults.add(tvShow);
+            }
+        }
+        return searchResults;
+    }
+
+    public List<TVShow> searchByGenre(String query) {
+        List<TVShow> searchResults = new ArrayList<>();
+        for (TVShow tvShow : favoriteTVShows) {
+            if (tvShow.getGenres().contains(query)) {
+                searchResults.add(tvShow);
+            }
+        }
+        return searchResults;
+    }
+
+
+    public List<TVShow> searchByReleaseYear(int year) {
+        List<TVShow> searchResults = new ArrayList<>();
+        for (TVShow tvShow : favoriteTVShows) {
+            if (tvShow.getReleaseYear() == year) {
+                searchResults.add(tvShow);
+            }
+        }
+        return searchResults;
     }
 }
